@@ -2,21 +2,20 @@
 
 ## **概览**
 
-MakeOTF 是创建 OpenType® 字体的工具。它构建字体时，会用到字体的源文件，
-以及包含 OpenType 布局特性的高层信息。
+MakeOTF 是创建 OpenType® 字体的工具。它构建字体时，需要用到字体的源文件，以及包含 OpenType 布局特性的上层信息。
 我们把 MakeOTF 设计成了命令行工具：把指令输到 macOS® 或 Windows® 的终端里。
 请注意 MakeOTF 是【字体数据的编译器】，而非【字体编辑器】。
 
 MakeOTF 需要多个源文件，这些文件均可在 makeotf 指令的选项中指定：
-  * **`font`**：通常命名为 `font.pfa` 或 `cidfont.ps`，可以是 Type1/CID 字体文件、TrueType 字体文件、
+  * **`font`（字体）**：通常命名为 `font.pfa` 或 `cidfont.ps`，可以是 Type1/CID 字体文件、TrueType 字体文件、
 或是 OpenType/CFF 字体文件。请注意，MakeOTF 只会将源字体的字形轮廓提出来。
 
-  * **`features`**：文本文件，包含了用户定义的 OpenType 布局特性规则，还指定了 OpenType 表中某些字段的值。
+  * **`features`（特性）**：文本文件，包含了用户定义的 OpenType 布局特性规则，还指定了 OpenType 表中某些字段的值。
 这些指定的值会覆盖掉 MakeOTF 计算的默认值。
 
-  * **`FontMenuNameDB`**：文本文件，提供了该字体在 Windows 和 macOS 菜单中显示的文字
+  * **`FontMenuNameDB`（字体菜单名）**：文本文件，提供了该字体在 Windows 和 macOS 菜单中显示的文字
 
-  * **`GlyphOrderAndAliasDB`**：此文件的用途有三，其一是编排字体文件内部的字形编号。其二，对于输出的 .otf 字体文件，允许其中字形的命名，不同于输入的源字体数据——这允许开发者在开发字体时使用更友好的名字，并使用不同于最终输出的 OpenType 文件中的名字。其三，提供各字形的 Unicode® 码位。默认情况下 MakeOTF 会提供某些字形的码位，但不会提供全部字形的。
+  * **`GlyphOrderAndAliasDB`（字形编号与代号）**：此文件的用途有三，其一是编排字体文件内部的字形编号。其二，对于输出的 .otf 字体文件，允许其中字形的命名，不同于输入的源字体数据——这允许开发者在开发字体时使用更友好的名字，并使用不同于最终输出的 OpenType 文件中的名字。其三，提供各字形的 Unicode® 码位。默认情况下 MakeOTF 会提供某些字形的码位，但不会提供全部字形的。
 
   * 可选的文件 **`fontinfo`**，若存在，MakeOTF 会检查其中的关键词，并设定某些特定的值。
 
@@ -26,14 +25,14 @@ MakeOTF 需要多个源文件，这些文件均可在 makeotf 指令的选项中
 
 ## **使用 MakeOTF**
 
-MakeOTF comes in two parts which can actually be called independently:
-  * **`makeotfexe`** is a program written in C, and is actually the tool that builds the OpenType font file. It requires, however, that all the source files be explicitly specified with options on the command line.
+MakeOTF 分为两个部分，二者相互独立，调用时互不干扰：
+  * **`makeotfexe`** 是个 C 语言程序，是事实上真正构建 OpenType 字体的程序，但得在命令行中输入选项，来明确地选取所有的源文件。
 
-  * **`makeotf`** is a command shell that calls the Python™ script **`makeotf.py`**. This will look for the source files in some standard locations, and fill in default values for options. It can also read the options needed from a project file (`current.fpr`), which means that for a particular font, one only needs to type-in all the options once. When **`makeotf.py`** has gathered all the source files, it will call the **`makeotfexe`** program.
+  * **`makeotf`** 是个命令行的 shell，它会调用 Python™ 脚本 **`makeotf.py`**。它将在一些标准位置查找源文件，并为选项填写默认值。它也可以从一个项目文件(`current.fpr`)中读取所需的选项，这样子在每次构建字体时，免去了反复输入所有选项的麻烦。当**`makeotf.py`**收集了所有的源文件后，它将调用**`makeotfexe`**程序。
 
-In general, one should invoke **`makeotf.py`** with the makeotf command. This way, the last set of options used will always be recorded in a project file.
+调用**`makeotf.py`**时一般得用 makeotf 命令，这样子可以将前一次的选项记录在工程文件中。
 
-The first step in using MakeOTF is to assemble the source files. It is often a good idea to organize the files in a directory tree, like this:
+使用 MakeOTF 的第一步是整理各个源文件。不妨将诸文件组织在目录树中：
 
 ```
 MyFontFamily/
@@ -60,6 +59,7 @@ MyFontFamily/
     │   └── font.pfa
     └── features.family
 ```
+这个想法是，一些数据，如 "FontMenuNameDB "和 "GlyphOrderAndAliasDB "文件，将在类型家族的所有成员之间共享，而其他数据将只适用于家族的一个子组。通过将可共享数据放置在目录树的较高层次，可以避免同一数据有多个副本，这意味着在数据需要更改时，需要编辑的文件会减少。这对于`features.family`文件最为重要。
 The idea is that some data, such as the files `FontMenuNameDB` and `GlyphOrderAndAliasDB`, will be shared between all members of the type family, whereas other data will only apply to a subgroup of the family. By placing the shareable data at a higher level in the directory tree, one can avoid having multiple copies of the same data, which means there will be less files to edit, in case the data needs to be changed. This is most important for the `features.family` file.
 
 Usually, positioning rules such as kerning (`features.kern`) are specific to each font, but most (or all) of the substitution rules are likely to be the same for all fonts. A good practice is to have a feature file for each family member, in the same directory as the source font file, and then use an include statement to reference feature files located higher in the directory tree. In the example above, there are two separate `features.family` files, one for Roman and another for Italic. These can, in turn, be shared between all family members under each branch. The need for two different `features.family` files comes from the fact that Roman and Italic styles might not have the same number of substitution (GSUB) rules — Italic tends to have more.
