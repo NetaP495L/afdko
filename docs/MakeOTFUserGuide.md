@@ -7,7 +7,7 @@ MakeOTF 是创建 OpenType® 字体的工具。它构建字体时，会用到字
 我们把 MakeOTF 设计成了命令行工具：把指令输到 macOS® 或 Windows® 的终端里。
 请注意 MakeOTF 是【字体数据的编译器】，而非【字体编辑器】。
 
-MakeOTF 所需的多个源文件可分为ce files that can all be specified through options for the makeotf command:
+MakeOTF 需要多个源文件，这些文件均可在 makeotf 指令的选项中指定：
   * **`font`**：通常命名为 `font.pfa` 或 `cidfont.ps`，可以是 Type1/CID 字体文件、TrueType 字体文件、
 或是 OpenType/CFF 字体文件。请注意，MakeOTF 只会将源字体的字形轮廓提出来。
 
@@ -16,15 +16,15 @@ MakeOTF 所需的多个源文件可分为ce files that can all be specified thro
 
   * **`FontMenuNameDB`**：文本文件，提供了该字体在 Windows 和 macOS 菜单中显示的文字
 
-  * **`GlyphOrderAndAliasDB`** - this file serves three purposes. One purpose is to establish the glyph ID order in the font. Another is to allow glyphs in the output .otf file to have different names than the glyphs in the input source font data. This permits developers to use friendlier names during development of a font, and use different names in the final OpenType file. The third is to provide Unicode® values for the glyphs. MakeOTF will provide Unicode values by default for some glyphs, but not all.
+  * **`GlyphOrderAndAliasDB`**：此文件的用途有三，其一是编排字体文件内部的字形编号。其二，对于输出的 .otf 字体文件，允许其中字形的命名，不同于输入的源字体数据——这允许开发者在开发字体时使用更友好的名字，并使用不同于最终输出的 OpenType 文件中的名字。其三，提供各字形的 Unicode® 码位。默认情况下 MakeOTF 会提供某些字形的码位，但不会提供全部字形的。
 
-  * An additional file, **`fontinfo`**, is not required, but if present, will be examined for keywords that cause MakeOTF to set some specific options.
+  * 可选的文件 **`fontinfo`**，若存在，MakeOTF 会检查其中的关键词，并设定某些特定的值。
 
-In order to avoid having to enter the options to specify the necessary files every time you want to build an OpenType font, MakeOTF can save a font project file that stores all desired options. MakeOTF will always write the last set of options used, to a file named `current.fpr` located in the same directory as the input font file. (Project files can also be saved under other names).
+为避免每次构建 OpenType 字体时，都得输入选项来指定必要的文件，MakeOTF 可以保存一个字体工程文件，该文件存储了所有需要的选项。MakeOTF 总是会将最终使用的选项尽数写入一个名为`current.fpr` 的文件，该文件的目录与输入的字体文件相同。（项目文件也可以用其他名字。）
 
-Options can be added to the `makeotf` command to set parameters that change how MakeOTF builds an OpenType font. When options conflict, the last one on the command line will override any earlier conflicting options.
+使用 `makeotf` 命令时可以加入选项来设置参数，以改变 MakeOTF 构建 OpenType 字体的细节。若选项有冲突，命令行上的最后一个选项将覆盖任何先前与之冲突的选项。
 
-## **Using MakeOTF**
+## **使用 MakeOTF**
 
 MakeOTF comes in two parts which can actually be called independently:
   * **`makeotfexe`** is a program written in C, and is actually the tool that builds the OpenType font file. It requires, however, that all the source files be explicitly specified with options on the command line.
