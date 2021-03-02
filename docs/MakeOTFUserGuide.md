@@ -7,12 +7,14 @@ MakeOTF 是创建 OpenType® 字体的工具。它构建字体时，会用到字
 我们把 MakeOTF 设计成了命令行工具：把指令输到 macOS® 或 Windows® 的终端里。
 请注意 MakeOTF 是【字体数据的编译器】，而非【字体编辑器】。
 
-MakeOTF requires a number of source files that can all be specified through options for the makeotf command:
-  * **`font`** - usually named `font.pfa` or `cidfont.ps`. This can be either a Type 1 or CID font file, a TrueType font file, or an OpenType/CFF font file. Note that only the glyph outlines are taken from the source font.
+MakeOTF 所需的多个源文件可分为ce files that can all be specified through options for the makeotf command:
+  * **`font`**：通常命名为 `font.pfa` 或 `cidfont.ps`，可以是 Type1/CID 字体文件、TrueType 字体文件、
+或是 OpenType/CFF 字体文件。请注意，MakeOTF 只会将源字体的字形轮廓提出来。
 
-  * **`features`** - a text file which provides the definitions for the OpenType layout feature rules, and specifies values for some of the OpenType table fields that will override the default values calculated by MakeOTF.
+  * **`features`**：文本文件，包含了用户定义的 OpenType 布局特性规则，还指定了 OpenType 表中某些字段的值。
+这些指定的值会覆盖掉 MakeOTF 计算的默认值。
 
-  * **`FontMenuNameDB`** - a text file which provides the Windows and Mac menu names for the font.
+  * **`FontMenuNameDB`**：文本文件，提供了该字体在 Windows 和 macOS 菜单中显示的文字
 
   * **`GlyphOrderAndAliasDB`** - this file serves three purposes. One purpose is to establish the glyph ID order in the font. Another is to allow glyphs in the output .otf file to have different names than the glyphs in the input source font data. This permits developers to use friendlier names during development of a font, and use different names in the final OpenType file. The third is to provide Unicode® values for the glyphs. MakeOTF will provide Unicode values by default for some glyphs, but not all.
 
