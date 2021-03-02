@@ -1,8 +1,11 @@
-# MakeOTF OpenType/CFF compiler - User Guide
+# MakeOTF OpenType/CFF 编译器：用户指南
 
-## **Overview**
+## **概览**
 
-MakeOTF is a tool designed to create an OpenType® font from a source font file and from a text file containing high-level descriptions of OpenType layout features. It is designed to run as a command line tool: a command typed into the Terminal window on Mac OS® X, or in the DOS window on Windows®. Note that MakeOTF is only a compiler of font data, not a font editor.
+MakeOTF 是创建 OpenType® 字体的工具。它构建字体时，会用到字体的源文件，
+以及包含 OpenType 布局特性的高层信息。
+我们把 MakeOTF 设计成了命令行工具：把指令输到 macOS® 或 Windows® 的终端里。
+请注意 MakeOTF 是【字体数据的编译器】，而非【字体编辑器】。
 
 MakeOTF requires a number of source files that can all be specified through options for the makeotf command:
   * **`font`** - usually named `font.pfa` or `cidfont.ps`. This can be either a Type 1 or CID font file, a TrueType font file, or an OpenType/CFF font file. Note that only the glyph outlines are taken from the source font.
