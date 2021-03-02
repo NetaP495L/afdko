@@ -15,7 +15,7 @@ MakeOTF 需要多个源文件，这些文件均可在 makeotf 指令的选项中
 
   * **`FontMenuNameDB`（字体菜单名）**：文本文件，提供了该字体在 Windows 和 macOS 菜单中显示的文字
 
-  * **`GlyphOrderAndAliasDB`（字形编号与代号）**：此文件的用途有三，其一是编排字体文件内部的字形编号。其二，对于输出的 .otf 字体文件，允许其中字形的命名，不同于输入的源字体数据——这允许开发者在开发字体时使用更友好的名字，并使用不同于最终输出的 OpenType 文件中的名字。其三，提供各字形的 Unicode® 码位。默认情况下 MakeOTF 会提供某些字形的码位，但不会提供全部字形的。
+  * **`GlyphOrderAndAliasDB`（字形顺序与代号）**：此文件的用途有三，其一是编排字体文件内部的字形编号。其二，对于输出的 .otf 字体文件，允许其中字形的命名，不同于输入的源字体数据——这允许开发者在开发字体时使用更友好的名字，并使用不同于最终输出的 OpenType 文件中的名字。其三，提供各字形的 Unicode® 码位。默认情况下 MakeOTF 会提供某些字形的码位，但不会提供全部字形的。
 
   * 可选的文件 **`fontinfo`**，若存在，MakeOTF 会检查其中的关键词，并设定某些特定的值。
 
@@ -30,7 +30,7 @@ MakeOTF 分为两个部分，二者相互独立，调用时互不干扰：
 
   * **`makeotf`** 是个命令行的 shell，它会调用 Python™ 脚本 **`makeotf.py`**。它将在一些标准位置查找源文件，并为选项填写默认值。它也可以从一个项目文件(`current.fpr`)中读取所需的选项，这样子在每次构建字体时，免去了反复输入所有选项的麻烦。当**`makeotf.py`**收集了所有的源文件后，它将调用**`makeotfexe`**程序。
 
-调用**`makeotf.py`**时一般得用 makeotf 命令，这样子可以将前一次的选项记录在工程文件中。
+调用 **`makeotf.py`** 时一般得用 makeotf 命令，这样子可以将前一次的选项记录在工程文件中。
 
 使用 MakeOTF 的第一步是整理各个源文件。不妨将诸文件组织在目录树中：
 
@@ -59,8 +59,7 @@ MyFontFamily/
     │   └── font.pfa
     └── features.family
 ```
-这个想法是，一些数据，如 "FontMenuNameDB "和 "GlyphOrderAndAliasDB "文件，将在类型家族的所有成员之间共享，而其他数据将只适用于家族的一个子组。通过将可共享数据放置在目录树的较高层次，可以避免同一数据有多个副本，这意味着在数据需要更改时，需要编辑的文件会减少。这对于`features.family`文件最为重要。
-The idea is that some data, such as the files `FontMenuNameDB` and `GlyphOrderAndAliasDB`, will be shared between all members of the type family, whereas other data will only apply to a subgroup of the family. By placing the shareable data at a higher level in the directory tree, one can avoid having multiple copies of the same data, which means there will be less files to edit, in case the data needs to be changed. This is most important for the `features.family` file.
+这样编排的理由是，一些数据——如「字体菜单名」和「字形顺序与代号」文件——将在字族的所有成员之间共享，而其他数据将只适用于其中一部分字族。将公用数据放置在目录树的较高层次，可以避免同一数据有多个副本，这样子，在数据需要更改时，需要编辑的文件会减少。这对于`features.family`文件尤为重要。
 
 Usually, positioning rules such as kerning (`features.kern`) are specific to each font, but most (or all) of the substitution rules are likely to be the same for all fonts. A good practice is to have a feature file for each family member, in the same directory as the source font file, and then use an include statement to reference feature files located higher in the directory tree. In the example above, there are two separate `features.family` files, one for Roman and another for Italic. These can, in turn, be shared between all family members under each branch. The need for two different `features.family` files comes from the fact that Roman and Italic styles might not have the same number of substitution (GSUB) rules — Italic tends to have more.
 
