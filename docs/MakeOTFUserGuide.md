@@ -8,7 +8,7 @@ font 根据上下文可能会翻译为「字体」和「字库」
 MakeOTF 是创建 OpenType® 字体的工具，它需要用到源字体文件，以及包含 OpenType 布局特性的上层信息。我们将其设计为命令行工具——也就是 macOS® 或 Windows® 终端里面的一条指令。请注意，MakeOTF 是「字库数据的编译器」，而非「字体编辑器」。
 
 MakeOTF 需要多个源文件，这些文件均可在 makeotf 指令的选项中指定：
-  * **`font`（字库）**：通常命名为 `font.pfa` 或 `cidfont.ps`，可以是 Type1/CID 字体文件、TrueType 字体文件、或是 OpenType/CFF 字体文件。请注意，MakeOTF 只提取源字库的字形轮廓。
+  * **`font`（字库）**：通常命名为 `font.pfa` 或 `cidfont.ps`，可以是 Type1/CID 字体文件、TrueType 字体文件、或是 OpenType/CFF 字体文件。请注意，MakeOTF 只抽取源字库的字形轮廓。
 
   * **`features`（特性）**：文本文件，包含了用户定义的 OpenType 布局特性规则，还指定了 OpenType 表中某些字段的值。这些指定的值会覆盖掉 MakeOTF 计算的默认值。
 
@@ -79,19 +79,19 @@ makeotf –fp myproject.fpr
 
 | 选项 | 设置 | 行为描述 |
 |--------|---------|-------------|
-|`–fp`| `<file path>` | Specify path to project file. If no path is given, the default is `current.fpr.` MakeOTF will read the options from this project file. The project file contains values only when they differ from the default value. The `–fp` option can be used with other options, but must always be first. Additional options will override those read from the project file. For example, `–fp release.fpr –o test.otf` will build an OpenType font with all the options in the release.fpr project file, but will write the output file as test.otf, instead of <PostScript-Name>.otf.|
-|`–f` | `<file path>` | Specify path to input font. If not provided, MakeOTF assumes the file name is font.pfa.|
-|`–o` | `<file path>` | Specify path to output font. If not provided, MakeOTF assumes the file name is `<PostScript-Name>.otf`.|
+|`–fp`| `<file path>` | 指定工程文件的路径。若不输入该选项，则路径默认为 `current.fpr`。MakeOTF 将从该项目文件中读取选项。项目文件应该只包含异于默认值的值。`-fp` 选项可以和其他选项一起使用，但必须放在第一位；后面的选项将覆盖从项目文件中读取的选项。例如，`-fp release.fpr -o test.otf` 将使用 `release.fpr` 项目文件中的所有选项来构建 OpenType 字体，但成品会输出至 `test.otf` 而 非 `<PostScript 名称>.otf`。|
+|`–f` | `<file path>` | 指定输入字体的路径。未给路径时，MakeOTF 会假定文件名为 `font.pfa`。|
+|`–o` | `<file path>` | 指定输出字体的路径。未给路径时，MakeOTF 会假定文件名为 `<PostScript 名称>.otf`。|
 |`–b` | | 将风格设置为粗体（Bold）。会影响字体风格关联（style-linking）。若不输入该选项，MakeOTF 会假定该字形不是粗体。|
 |`–i` | | 将风格设置为意大利体（Italic）。会影响字体风格关联（style-linking）。若不输入该选项，MakeOTF 会假定该字形不是意大利体。|
 |`–ff` | `<file path>` | Specify path to features file. If not provided, MakeOTF assumes the file name is features.|
 |`-gs` | | Omit any glyphs that are not named in the GOADB file. Works only if either the -ga or -r options is specified.|
 |`–mf` | `<file path>` | Specify path to FontMenuNameDB file. If not provided, MakeOTF will look in the current directory for a file named FontMenuNameDB, and then one directory up, and finally two directories up.|
 |`–gf` | `<file path>` | Specify path to GlyphOrderAndAliasDB file. If not provided, MakeOTF will look in the current directory for a file named GlyphOrderAndAliasDB, and then one directory up, and finally two directories up. Also, if this option is specified, and the `–r` or `–ga` options are NOT specified, the effect is to use the Unicode assignments from the third column of the GOADB without renaming the glyphs.|
-|`–r` | | Set release mode. This option turns on subroutinization, applies the GlyphOrderAndAliasDB file, and removes the word Development from the name table Version (Name ID 5) string.|
+|`–r` | | 设定为「正式发布」模式。这一选项会开启「子过程化」（subroutinization）——将字库中抽取各字形的公共部分；应用「字形顺序与代号」文件；对于 name 表，将其 Version 字符串（Name ID 5）中的 Development 字眼去除。|
 |`–S` | | Turn on subroutinization.|
 |`–ga` | | Apply the GlyphOrderAndAliasDB file. Use when the `–r` option is NOT specified.|
-|`-rev` | `[<number>]` | Attempts to edit the feature file before makeotfexe is run, in order to increment the head table fontRevision field. This only works if the head table override is already defined in the features file. Without the optional version number, increments the version number by 5. With an integer argument, it increments the minor version by that number. With a fractional argument, it sets the version to the fractional argument; the number must then be decimal with three decimal places, e.g. “1.045”, not ‘1.45’.|
+|`-rev` | `[<number>]` | 尝试在 makeotfexe 运行前先编辑特性文件,将 head 表的 fontRevision 值域自增。这一选项起作用的前提条件是，对 head 表的覆盖已在特性文件中先行定义。版本号是可选的，若选项中未填写版本号，则将它自增 5；若给了整数参数，则它自增的大小为该参数。如果给了比值参数，则会将版本号*设定*为该比值（这里不是自增！），保留三位小数（十进制）。|
 |`–osbOn` | `<number>` | Turn on the specified bit number(s) in the OS/2 table fsSelection field. In order to turn on more than one bit, must be used more than once. `–osbOn 7 –osbOn 8` will turn on bits 7 and 8. See section below on New OS/2 Bits.|
 |`–osbOff` | `<number>` | Turn off the specified bit number(s) in the OS/2 table fsSelection field. Can be used more than once to turn OFF more than one bit at a time. `–osbOff 7 –osbOff 8` will turn off bits 7 and 8. See section below on New OS/2 Bits.|
 |`-osv` | `<number>` | Set version number of the OS/2 table. The default value is 3 if none of the bits specified only in version 4 and later are used; otherwise, the default version is 4. See section below on New OS/2 Bits.|
@@ -116,9 +116,9 @@ makeotf –fp myproject.fpr
 |`-naddn`| |Turn off adding a standard .notdef. Can be used to override a project file setting, otherwise has no effect.|
 |`-nadds`| |Turn off adding Apple symbol glyphs. Can be used to override a project file setting, otherwise has no effect.| 
 
-Options are applied in the order in which they are specified: `–r –nS` will not subroutinize a font, but `–nS –r` will subroutinize a font. Option values are read (in order of increasing priority) from first the fontinfo file keyword/value pairs, then the specified project file, if any, and then from the command line, in order from left to right. 
+当存在多个选项时，选项是否被应用，取决于选项的先后顺序：`–r –nS` 不会将字体子程序化，但 `–nS –r` 会。参数的读取顺序是：先读取 fontinfo 文件的键值对，然后读取指定的项目文件，最后，从左往右读取命令行里的选项。后读取的参数会覆盖先读取的。
 
-Subroutinization is a process by which common elements in a set of glyphs are decomposed in separate subroutines. This can reduce the size of the final font but can require extreme amounts of memory and time for a large font, such as CID fonts. MakeOTF may need as much as 64 Mbytes of memory for large Roman fonts, and will do most with only 32 Mbytes, but it may need 768 Mbytes of memory to subroutinize a 5-Mbyte CID font. Subroutinizing is reasonably fast when done all in memory: a few minutes for a Roman font, half an hour to three hours for a CID font. However, if the system must use virtual memory, the time required can increase by a factor of 20 or more. Subroutinizing is likely to be useful for Roman fonts, and for Korean CID fonts. Japanese and Chinese CID fonts usually only yield a few percent size reduction with subroutinizing, due to fewer repeating path elements.
+「子程序化」是一个作用于字库中各字形的过程，它会把各字形中的共同元素分解为单独的「子程序」。这可以减少最终字体的大小，但对于大型字体（如 CID 字体）可能需要极多的内存和时间。MakeOTF 对于大型的罗马字体可能需要 64 MB 的内存，只需要 32 MB 就可以完成大部分的工作，但是它可能需要768 MB 的内存来对一个5 MB 的 CID 字体进行子程序化。如果全部在内存中完成，子程序化的速度相当快：罗马字体几分钟，CID 字体半小时到三小时，但如果系统不得不使用虚拟内存，所需时间可能会增加 20 倍以上。子程序化对罗马字体和韩文 CID 字体一般会有用；而至于日文和中文 CID 字体，由于重复的路径元素较少，使用子程序化一般只能减少百分之几的大小。
 
 ## FontMenuNameDB – Version 2
 
@@ -244,7 +244,7 @@ Versions of MakeOTF prior to FDK 2.5 used a similar syntax in the FontMenuNameDB
 
 If the key `c=` is used, then MakeOTF will build the older style name table. If the keys `l=` or `m=` are present, it will build the newer style name table . If none of these are present, then there is no difference in how the name table is built.
 
-## **GlyphOrderAndAliasDB** (GOADB)
+## **字形顺序与代号（GOADB）**
 
 The GOADB file is used to rename and to establish an order for the glyphs in a font.
 It is a simple text file with one line per glyph name. Each line contains at least two fields,
@@ -288,7 +288,7 @@ Note that MakeOTF cannot re-order glyphs when the source font is a TrueType or O
 
 Note that MakeOTF no longer assigns glyphs Unicode values from the Private Use Area (PUA) block. If such Unicode values are needed, they must be specified in a `GOADB` file.
 
-## **fontinfo**
+## **字体信息（fontinfo）**
 
 The fontinfo file is a simple text file containing key-value pairs. Each line contains two white-space separated fields. The first field is a keyword, and the second field is the value. makeotf will look for a fontinfo file in the same directory as the source font file, and, if found, use it to set some default values. These values will be overridden if they are also set by a project file, and then by any `makeotf` command line options. The keywords and values currently supported are:
 
@@ -300,7 +300,7 @@ The fontinfo file is a simple text file containing key-value pairs. Each line co
 |`IsOS/2WidthWeigthSlopeOnly`|`true/false` | Set the OS/2 table fsSelection bit 8, `WEIGHT_WIDTH_SLOPE_ONLY`. Same as the command line option `–osbOn 8`.|
 |`IsOS/2OBLIQUE`|`true/false` | Set the OS/2 table fsSelection bit 9, `OBLIQUE`. Same as the command line option `–osbOn 9`.|
 
-## **Adobe character code map** (CMap)
+## **Adobe 字符码位映射表（CMap）**
 A CMap file maps character codes to glyph selectors. It is only necessary for CID fonts. This file may be located anywhere within the file system, as long as the directory path is stored in the `FontEnvironment.txt` file, or the file is chosen explicitly via the UI. The default CMap files are automatically selected by MakeOTF when the `cidfontinfo` file is selected.
 
 The Mac CMap file provides the encoding for a Mac platform cmap subtable in the OpenType font cmap table. This is required. The script and language of this Mac platform cmap subtable is determined by heuristics in MakeOTF, but can be specified by MakeOTF options. These apply only to CID source fonts.
@@ -326,7 +326,7 @@ When looking for default CID CMap files, MakeOTF uses the following rules:
 
 For further information on CMaps, please read the many [Adobe Technical Notes](https://github.com/adobe-type-tools/cmap-resources)
 
-## **Unicode Variation Sequence (UVS) File**
+## **〔Unicode 变体选择序列〕文件（UVS File）**
 A UVS file is a list of records, each of which specifies the glyph which should be displayed for a given combination of a Unicode encoding value and a Unicode Variation Selector. You can read about Unicode Variation Sequence in the publication “Unicode Technical Standard #37 , Ideographic Variation Database , at http://unicode.org/reports/tr37/. The format depends on the source font format: CID-keyed fonts require three fields in each record, non-CID fonts require only two.
 
 #### For CID-keyed fonts:
