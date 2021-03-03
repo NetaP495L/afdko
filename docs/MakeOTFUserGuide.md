@@ -60,30 +60,30 @@ MyFontFamily/
 ```
 这样编排的理由是，一些数据——如「字体菜单名」和「字形顺序与代号」文件——将在字族的所有成员之间共享，而其他数据将只适用于字族的其中一部分字族。将公用数据放置在目录树的较高层次，可以避免同一数据有多个副本，这样子，在数据需要更改时，需要编辑的文件会减少。这对于 `features.family` 文件尤为重要。
 
-一般来说，对于不同的字库，其字形定位规则（如 kerning `features.kern`）一般不同，而字形替换规则却几乎相同。实践中有个不错的做法是，给字族中每个成员分别使用一个特性文件，跟源字库文件一起放在同一个目录下；对于放在上层目录的特性文件，则使用「include 陈述」来引用。上例中有两个独立的 `features.family` 字族特性文件，分列于罗马体和意大利体的字族目录下，可分别被所在字族下属的各字体共享。（In the example above, there are two separate `features.family` files, one for Roman and another for Italic. These can, in turn, be shared between all family members under each branch.）要搞两个不同的字族特性文件，是因为罗马体和意大利体的字形替换（GSUB）规则不太一样——意大利体的应该多一点。
+一般来说，对于不同的字库，其字形定位规则（如 kerning `features.kern`）一般不同，而字形替换规则却几乎相同。实践中有个不错的做法是，给字族中每个成员分别使用一个特性文件，跟源字库文件一起放在同一个目录下；对于放在上层目录的特性文件，则使用「include 陈述」来引用。上例中，在罗马体和意大利体的字族目录下，有两个独立的 `features.family` 字族特性文件，可为相应字族下属的各字体共用。要搞两个不同的字族特性文件，是因为罗马体和意大利体的字形替换（GSUB）规则不太一样——意大利体的应该多一点。
 
-Once one has assembled all the necessary files, the next step is to open a command window — the Terminal program on Mac OS X, or the Command program on Windows —, and use the cd command to set the current working directory to the directory which contains the set of source files to compile the OpenType font:
+整理好所有必要的文件后，下一步是打开终端命令行，并使用 `cd` 指令，将当前的工作目录切换至编译字体的源文件所属的目录：
 ```bash
 cd <path to font directory>
 ```
-and then type the `makeotf` command, with the options needed. For example:
+然后输入 `makeotf` 指令，以及必要的选项。举个例子：
 ```bash
 makeotf –f myfont.pfa –ff myfeatures –b –r
 ```
-or
+或
 ```bash
 makeotf –fp myproject.fpr
 ```
 
-## **MakeOTF options**
+## **MakeOTF 选项**
 
-| Option | Setting | Description |
+| 选项 | 设置 | 行为描述 |
 |--------|---------|-------------|
 |`–fp`| `<file path>` | Specify path to project file. If no path is given, the default is `current.fpr.` MakeOTF will read the options from this project file. The project file contains values only when they differ from the default value. The `–fp` option can be used with other options, but must always be first. Additional options will override those read from the project file. For example, `–fp release.fpr –o test.otf` will build an OpenType font with all the options in the release.fpr project file, but will write the output file as test.otf, instead of <PostScript-Name>.otf.|
 |`–f` | `<file path>` | Specify path to input font. If not provided, MakeOTF assumes the file name is font.pfa.|
 |`–o` | `<file path>` | Specify path to output font. If not provided, MakeOTF assumes the file name is `<PostScript-Name>.otf`.|
-|`–b` | | Set style to Bold. Affects style-linking. If not provided, MakeOTF assumes that the font is not bold.|
-|`–i` | | Set style to Italic. Affects style-linking. If not provided, MakeOTF assumes that the font is not italic.|
+|`–b` | | 将风格设置为粗体（Bold）。会影响字体风格关联（style-linking）。若不输入该选项，MakeOTF 会假定该字形不是粗体。|
+|`–i` | | 将风格设置为意大利体（Italic）。会影响字体风格关联（style-linking）。若不输入该选项，MakeOTF 会假定该字形不是意大利体。|
 |`–ff` | `<file path>` | Specify path to features file. If not provided, MakeOTF assumes the file name is features.|
 |`-gs` | | Omit any glyphs that are not named in the GOADB file. Works only if either the -ga or -r options is specified.|
 |`–mf` | `<file path>` | Specify path to FontMenuNameDB file. If not provided, MakeOTF will look in the current directory for a file named FontMenuNameDB, and then one directory up, and finally two directories up.|
