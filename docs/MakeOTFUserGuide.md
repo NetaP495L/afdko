@@ -2,22 +2,18 @@
 
 ## **概览**
 
-MakeOTF 是创建 OpenType® 字体的工具。它构建字体时，需要用到字体的源文件，以及包含 OpenType 布局特性的上层信息。
-我们把 MakeOTF 设计成了命令行工具：把指令输到 macOS® 或 Windows® 的终端里。
-请注意 MakeOTF 是【字体数据的编译器】，而非【字体编辑器】。
+MakeOTF 是创建 OpenType® 字库的工具。它构建字体时需要用到字体的源文件，以及包含 OpenType 布局特性的上层信息。我们把 MakeOTF 设计成了命令行工具——也就是 macOS® 或 Windows® 终端里面的一条指令。请注意，MakeOTF 是「字库数据的编译器」，而非「字库编辑器」。
 
 MakeOTF 需要多个源文件，这些文件均可在 makeotf 指令的选项中指定：
-  * **`font`（字体）**：通常命名为 `font.pfa` 或 `cidfont.ps`，可以是 Type1/CID 字体文件、TrueType 字体文件、
-或是 OpenType/CFF 字体文件。请注意，MakeOTF 只会将源字体的字形轮廓提出来。
+  * **`font`（字库）**：通常命名为 `font.pfa` 或 `cidfont.ps`，可以是 Type1/CID 字库文件、TrueType 字库文件、或是 OpenType/CFF 字库文件。请注意，MakeOTF 只提取源字库的字形轮廓。
 
-  * **`features`（特性）**：文本文件，包含了用户定义的 OpenType 布局特性规则，还指定了 OpenType 表中某些字段的值。
-这些指定的值会覆盖掉 MakeOTF 计算的默认值。
+  * **`features`（特性）**：文本文件，包含了用户定义的 OpenType 布局特性规则，还指定了 OpenType 表中某些字段的值。这些指定的值会覆盖掉 MakeOTF 计算的默认值。
 
-  * **`FontMenuNameDB`（字体菜单名）**：文本文件，提供了该字体在 Windows 和 macOS 菜单中显示的文字
+  * **`FontMenuNameDB`（字体菜单名）**：文本文件，提供了该字体在 Windows 和 macOS 菜单中显示的文字。
 
-  * **`GlyphOrderAndAliasDB`（字形顺序与代号）**：此文件的用途有三，其一是编排字体文件内部的字形编号。其二，对于输出的 .otf 字体文件，允许其中字形的命名，不同于输入的源字体数据——这允许开发者在开发字体时使用更友好的名字，并使用不同于最终输出的 OpenType 文件中的名字。其三，提供各字形的 Unicode® 码位。默认情况下 MakeOTF 会提供某些字形的码位，但不会提供全部字形的。
+  * **`GlyphOrderAndAliasDB`（字形顺序与代号）**：此文件的用途有三，其一，在字体文件内部，编排字形的编号顺序。其二，对于输出的 .otf 字库文件，允许其字形命名异于输入的源字体数据。这允许开发者在开发字体时使用更友好的名字，并使用不同于最终输出的 OpenType 文件中的名字。其三，提供各字形的 Unicode® 码位。默认情况下 MakeOTF 会提供某些字形的码位，但不会提供全部字形的。
 
-  * 可选的文件 **`fontinfo`**，若存在，MakeOTF 会检查其中的关键词，并设定某些特定的值。
+  * 非必需的文件 **`fontinfo`**，若存在，MakeOTF 会检查其中的关键词，并设定某些特定的选项。
 
 为避免每次构建 OpenType 字体时，都得输入选项来指定必要的文件，MakeOTF 可以保存一个字体工程文件，该文件存储了所有需要的选项。MakeOTF 总是会将最终使用的选项尽数写入一个名为`current.fpr` 的文件，该文件的目录与输入的字体文件相同。（项目文件也可以用其他名字。）
 
@@ -28,7 +24,7 @@ MakeOTF 需要多个源文件，这些文件均可在 makeotf 指令的选项中
 MakeOTF 分为两个部分，二者相互独立，调用时互不干扰：
   * **`makeotfexe`** 是个 C 语言程序，是事实上真正构建 OpenType 字体的程序，但得在命令行中输入选项，来明确地选取所有的源文件。
 
-  * **`makeotf`** 是个命令行的 shell，它会调用 Python™ 脚本 **`makeotf.py`**。它将在一些标准位置查找源文件，并为选项填写默认值。它也可以从一个项目文件(`current.fpr`)中读取所需的选项，这样子在每次构建字体时，免去了反复输入所有选项的麻烦。当**`makeotf.py`**收集了所有的源文件后，它将调用**`makeotfexe`**程序。
+  * **`makeotf`** 是个命令行的 shell，它会调用 Python™ 脚本 **`makeotf.py`**。它将在一些标准位置查找源文件，并为选项填写默认值。它也可以从一个项目文件(`current.fpr`)中读取所需的选项，这样子在每次构建字体时，免去了反复输入所有选项的麻烦。当 **`makeotf.py`** 收集了所有的源文件后，它将调用 **`makeotfexe`** 程序。
 
 调用 **`makeotf.py`** 时一般得用 makeotf 命令，这样子可以将前一次的选项记录在工程文件中。
 
@@ -59,9 +55,9 @@ MyFontFamily/
     │   └── font.pfa
     └── features.family
 ```
-这样编排的理由是，一些数据——如「字体菜单名」和「字形顺序与代号」文件——将在字族的所有成员之间共享，而其他数据将只适用于其中一部分字族。将公用数据放置在目录树的较高层次，可以避免同一数据有多个副本，这样子，在数据需要更改时，需要编辑的文件会减少。这对于`features.family`文件尤为重要。
+这样编排的理由是，一些数据——如「字体菜单名」和「字形顺序与代号」文件——将在字族的所有成员之间共享，而其他数据将只适用于字族的其中一部分字族。将公用数据放置在目录树的较高层次，可以避免同一数据有多个副本，这样子，在数据需要更改时，需要编辑的文件会减少。这对于 `features.family` 文件尤为重要。
 
-Usually, positioning rules such as kerning (`features.kern`) are specific to each font, but most (or all) of the substitution rules are likely to be the same for all fonts. A good practice is to have a feature file for each family member, in the same directory as the source font file, and then use an include statement to reference feature files located higher in the directory tree. In the example above, there are two separate `features.family` files, one for Roman and another for Italic. These can, in turn, be shared between all family members under each branch. The need for two different `features.family` files comes from the fact that Roman and Italic styles might not have the same number of substitution (GSUB) rules — Italic tends to have more.
+一般来说，对于两个不同的字库，它们的字形定位规则（如 kerning `features.kern`）一般不同，而字形替换规则则几乎相同。在实践中，有个不错的做法是给字族中每个成员分别使用一个特性文件，跟源字库文件一起放在同一个目录下；对于放在上层目录的特性文件，则使用「include 陈述」来引用。上例中有两个独立的 `features.family` 文件，分别给罗马体和意大利体使用。In the example above, there are two separate `features.family` files, one for Roman and another for Italic. These can, in turn, be shared between all family members under each branch. The need for two different `features.family` files comes from the fact that Roman and Italic styles might not have the same number of substitution (GSUB) rules — Italic tends to have more.
 
 Once one has assembled all the necessary files, the next step is to open a command window — the Terminal program on Mac OS X, or the Command program on Windows —, and use the cd command to set the current working directory to the directory which contains the set of source files to compile the OpenType font:
 ```bash
