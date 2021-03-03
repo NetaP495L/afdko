@@ -18,7 +18,7 @@ MakeOTF 需要多个源文件，这些文件均可在 makeotf 指令的选项中
 
   * 非必需的文件 **`fontinfo`**，若存在，MakeOTF 会检查其中的关键词，并设定某些特定的选项。
 
-为避免每次构建 OpenType 字体时，都得输入选项来指定必要的文件，MakeOTF 可以保存一个字体工程文件，该文件存储了所有需要的选项。MakeOTF 总是会将最终使用的选项尽数写入一个名为`current.fpr` 的文件，该文件的目录与输入的字体文件相同。（项目文件也可以用其他名字。）
+为避免每次构建 OpenType 字体时，都得输入选项来指定必要的文件，MakeOTF 可以保存一个字体工程文件，该文件存储了所有需要的选项。MakeOTF 总是会将最终使用的选项尽数写入一个名为 `current.fpr` 的文件，该文件的目录与输入的字体文件相同。（项目文件也可以用其他名字。）
 
 使用 `makeotf` 命令时可以加入选项来设置参数，以改变 MakeOTF 构建 OpenType 字体的细节。若选项有冲突，命令行上的最后一个选项将覆盖任何先前与之冲突的选项。
 
@@ -120,7 +120,7 @@ makeotf –fp myproject.fpr
 
 「子程序化」是一个作用于字库中各字形的过程，它会把各字形中的共同元素分解为单独的「子程序」。这可以减少最终字体的大小，但对于大型字体（如 CID 字体）可能需要极多的内存和时间。MakeOTF 对于大型的罗马字体可能需要 64 MB 的内存，只需要 32 MB 就可以完成大部分的工作，但是它可能需要768 MB 的内存来对一个5 MB 的 CID 字体进行子程序化。如果全部在内存中完成，子程序化的速度相当快：罗马字体几分钟，CID 字体半小时到三小时，但如果系统不得不使用虚拟内存，所需时间可能会增加 20 倍以上。子程序化对罗马字体和韩文 CID 字体一般会有用；而至于日文和中文 CID 字体，由于重复的路径元素较少，使用子程序化一般只能减少百分之几的大小。
 
-## FontMenuNameDB – Version 2
+## 字体菜单名（FontMenuNameDB）：第二版
 
 Previous versions of MakeOTF used a different version of the `FontMenuNameDB` file, and wrote the Macintosh font menu names differently than the Windows font menu names, and not according to the OpenType spec. This is because of some history of the early efforts to get OpenType fonts working on the Mac OS. However, for some years Apple has been following the OpenType spec when making Apple OpenType fonts, and has fully supported the OpenType font menu names. As a result, this version of MakeOTF has implemented new syntax for the `FontMenuNameDB`, and will create the name table according to the OpenType spec when this new syntax is used.
 
@@ -229,20 +229,6 @@ In general, the `f=`, `s=`, and `l=` can be extended to set non-Latin strings by
 |`[KozMinPro-Bold]`                       ||
 |`f=3,1,0x411,\5c0f\585a\660e\671d Pro`   | Windows, Unicode, Japanese |
 |`f=1,1,11,\8f\ac\92\cb\96\be\92\a9 Pro`  | Mac, Japanese, Japanese |
-
-
-## **FontMenuNameDB - Version 1**
-Versions of MakeOTF prior to FDK 2.5 used a similar syntax in the FontMenuNameDB file. When this older version syntax is used, MakeOTF will build the name table font menu names as it did in FDK version 2.0 and earlier. These earlier versions built the Windows platform names the same. However, only the Preferred Family and Style names were written in the Mac platform name strings, and in respectively name ID 1 and name ID 2. The key “c=” set the compatible family name for the Windows platform. There was no way to specify a compatible family name for the Mac platform. The key `c=1,` set instead a compatible value for the Mac platform Full Name String, name ID 18.
-
-|**Font Entry Description**|
-|--------------------------|
-|`[<PostScript Name>]`|
-|`f=<Family name>`|
-|`s=<Subfamily name>` (a.k.a. Style name)|
-|`c=<Windows compatible menu name>`|
-|`c=1,<Macintosh compatible menu name>`|
-
-If the key `c=` is used, then MakeOTF will build the older style name table. If the keys `l=` or `m=` are present, it will build the newer style name table . If none of these are present, then there is no difference in how the name table is built.
 
 ## **字形顺序与代号（GOADB）**
 

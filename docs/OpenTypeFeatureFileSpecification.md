@@ -288,7 +288,7 @@ dflt  # can be used only with the language keyword and as the language value wit
 
 
 <a name="2.e"></a>
-## 2.e. Numbers and other metrics
+### 2.e. Numbers and other metrics
 
 <a name="2.e.i"></a>
 #### 2.e.i. Number
