@@ -122,21 +122,21 @@ makeotf –fp myproject.fpr
 
 ## 字体菜单名（FontMenuNameDB）：第二版
 
-Previous versions of MakeOTF used a different version of the `FontMenuNameDB` file, and wrote the Macintosh font menu names differently than the Windows font menu names, and not according to the OpenType spec. This is because of some history of the early efforts to get OpenType fonts working on the Mac OS. However, for some years Apple has been following the OpenType spec when making Apple OpenType fonts, and has fully supported the OpenType font menu names. As a result, this version of MakeOTF has implemented new syntax for the `FontMenuNameDB`, and will create the name table according to the OpenType spec when this new syntax is used.
+> Previous versions of MakeOTF used a different version of the `FontMenuNameDB` file, and wrote the Macintosh font menu names differently than the Windows font menu names, and not according to the OpenType spec. This is because of some history of the early efforts to get OpenType fonts working on the Mac OS. However, for some years Apple has been following the OpenType spec when making Apple OpenType fonts, and has fully supported the OpenType font menu names. As a result, this version of MakeOTF has implemented new syntax for the `FontMenuNameDB`, and will create the name table according to the OpenType spec when this new syntax is used.
 
-Fonts made with earlier versions of MakeOTF will not be disadvantaged, as all Adobe fonts to date and many third-party fonts were made this way, and all programs look first to the Windows font menu names when they exist, as this is where the style-linking names can most reliably be found.
+> Fonts made with earlier versions of MakeOTF will not be disadvantaged, as all Adobe fonts to date and many third-party fonts were made this way, and all programs look first to the Windows font menu names when they exist, as this is where the style-linking names can most reliably be found.
 
-The earlier version of the `FontMenuNameDB` may still be used. The main reason to change is that the newer version is easier to explain and understand.
+> The earlier version of the `FontMenuNameDB` may still be used. The main reason to change is that the newer version is easier to explain and understand.
 
-The `FontMenuNameDB` file is used to specify font menu-naming information. It consists of a text file that may contain information for several different fonts. Each font entry starts with the `<PostScriptName>`, and is followed by the various menu names. These names are used to build the name table strings that describe the font. This allows one to put the menu names for all the fonts in a single file, making it easier to coordinate menu names across a family.
+「字体菜单名」文件用来指定字体在菜单中的名称信息。它是文本文件，可能包含多个字体的信息。每个字体的条目从 `[<PostScript 名称>]` 开始，后面几行是各种各样的菜单名。这些名称会用来构建 name 表的字串，以描述该字体。这使得我们可以将所有字体的菜单名统统放进一个单独的文件，以便在整个字族中找出各个菜单名。
 
-|**Font Entry Description**|
+|**字体条目描述**|
 |--------------------------|
-|`[<PostScript Name>]`|
-|`f=<Preferred Family name>`|
-|`s=<Subfamily name>` (a.k.a. Style name)|
-|`l=<compatible family menu name>`|
-|`m=1,<Macintosh compatible Full name>`|
+|`[<PostScript 名称>]`|
+|`f=<优先选择的字族名称>`|
+|`s=<子字族名称>` （又称：风格名称）|
+|`l=<兼容的字族菜单名称>`|
+|`m=1,<Macintosh 兼容全名>`|
 
 Each `FontMenuNameDB` entry is composed of at least `Preferred Family name`, which is specified with the key `f=`, followed by the family name.
 
