@@ -79,36 +79,36 @@ makeotf –fp myproject.fpr
 
 | 选项 | 设置 | 行为描述 |
 |--------|---------|-------------|
-|`–fp`| `<file path>` | 指定工程文件的路径。若不输入该选项，则路径默认为 `current.fpr`。MakeOTF 将从该项目文件中读取选项。项目文件应该只包含异于默认值的值。`-fp` 选项可以和其他选项一起使用，但必须放在第一位；后面的选项将覆盖从项目文件中读取的选项。例如，`-fp release.fpr -o test.otf` 将使用 `release.fpr` 项目文件中的所有选项来构建 OpenType 字体，但成品会输出至 `test.otf` 而 非 `<PostScript 名称>.otf`。|
-|`–f` | `<file path>` | 指定输入字体的路径。未给路径时，MakeOTF 会假定文件名为 `font.pfa`。|
-|`–o` | `<file path>` | 指定输出字体的路径。未给路径时，MakeOTF 会假定文件名为 `<PostScript 名称>.otf`。|
+|`–fp`| `<文件路径>` | 指定工程文件的路径。若不输入该选项，则路径默认为 `current.fpr`。MakeOTF 将从该项目文件中读取选项。项目文件应该只包含异于默认值的值。`-fp` 选项可以和其他选项一起使用，但必须放在第一位；后面的选项将覆盖从项目文件中读取的选项。例如，`-fp release.fpr -o test.otf` 将使用 `release.fpr` 项目文件中的所有选项来构建 OpenType 字体，但成品会输出至 `test.otf` 而 非 `<PostScript 名称>.otf`。|
+|`–f` | `<文件路径>` | 指定输入字体的路径。未给路径时，MakeOTF 会假定文件名为 `font.pfa`。|
+|`–o` | `<文件路径>` | 指定输出字体的路径。未给路径时，MakeOTF 会假定文件名为 `<PostScript 名称>.otf`。|
 |`–b` | | 将风格设置为粗体（Bold）。会影响字体风格关联（style-linking）。若不输入该选项，MakeOTF 会假定该字形不是粗体。|
 |`–i` | | 将风格设置为意大利体（Italic）。会影响字体风格关联（style-linking）。若不输入该选项，MakeOTF 会假定该字形不是意大利体。|
-|`–ff` | `<file path>` | Specify path to features file. If not provided, MakeOTF assumes the file name is features.|
+|`–ff` | `<文件路径>` | Specify path to features file. If not provided, MakeOTF assumes the file name is features.|
 |`-gs` | | Omit any glyphs that are not named in the GOADB file. Works only if either the -ga or -r options is specified.|
-|`–mf` | `<file path>` | Specify path to FontMenuNameDB file. If not provided, MakeOTF will look in the current directory for a file named FontMenuNameDB, and then one directory up, and finally two directories up.|
-|`–gf` | `<file path>` | Specify path to GlyphOrderAndAliasDB file. If not provided, MakeOTF will look in the current directory for a file named GlyphOrderAndAliasDB, and then one directory up, and finally two directories up. Also, if this option is specified, and the `–r` or `–ga` options are NOT specified, the effect is to use the Unicode assignments from the third column of the GOADB without renaming the glyphs.|
+|`–mf` | `<文件路径>` | Specify path to FontMenuNameDB file. If not provided, MakeOTF will look in the current directory for a file named FontMenuNameDB, and then one directory up, and finally two directories up.|
+|`–gf` | `<文件路径>` | Specify path to GlyphOrderAndAliasDB file. If not provided, MakeOTF will look in the current directory for a file named GlyphOrderAndAliasDB, and then one directory up, and finally two directories up. Also, if this option is specified, and the `–r` or `–ga` options are NOT specified, the effect is to use the Unicode assignments from the third column of the GOADB without renaming the glyphs.|
 |`–r` | | 设定为「正式发布」模式。这一选项会开启「子过程化」（subroutinization）——将字库中抽取各字形的公共部分；应用「字形顺序与代号」文件；对于 name 表，将其 Version 字符串（Name ID 5）中的 Development 字眼去除。|
 |`–S` | | Turn on subroutinization.|
 |`–ga` | | Apply the GlyphOrderAndAliasDB file. Use when the `–r` option is NOT specified.|
-|`-rev` | `[<number>]` | 尝试在 makeotfexe 运行前先编辑特性文件,将 head 表的 fontRevision 值域自增。这一选项起作用的前提条件是，对 head 表的覆盖已在特性文件中先行定义。版本号是可选的，若选项中未填写版本号，则将它自增 5；若给了整数参数，则它自增的大小为该参数。如果给了比值参数，则会将版本号*设定*为该比值（这里不是自增！），保留三位小数（十进制）。|
-|`–osbOn` | `<number>` | Turn on the specified bit number(s) in the OS/2 table fsSelection field. In order to turn on more than one bit, must be used more than once. `–osbOn 7 –osbOn 8` will turn on bits 7 and 8. See section below on New OS/2 Bits.|
-|`–osbOff` | `<number>` | Turn off the specified bit number(s) in the OS/2 table fsSelection field. Can be used more than once to turn OFF more than one bit at a time. `–osbOff 7 –osbOff 8` will turn off bits 7 and 8. See section below on New OS/2 Bits.|
-|`-osv` | `<number>` | Set version number of the OS/2 table. The default value is 3 if none of the bits specified only in version 4 and later are used; otherwise, the default version is 4. See section below on New OS/2 Bits.|
+|`-rev` | `[<数值>]` | 尝试在 makeotfexe 运行前先编辑特性文件,将 head 表的 fontRevision 值域自增。这一选项起作用的前提条件是，对 head 表的覆盖已在特性文件中先行定义。版本号是可选的，若选项中未填写版本号，则将它自增 5；若给了整数参数，则它自增的大小为该参数。如果给了比值参数，则会将版本号*设定*为该比值（这里不是自增！），保留三位小数（十进制）。|
+|`–osbOn` | `<数值>` | Turn on the specified bit number(s) in the OS/2 table fsSelection field. In order to turn on more than one bit, must be used more than once. `–osbOn 7 –osbOn 8` will turn on bits 7 and 8. See section below on New OS/2 Bits.|
+|`–osbOff` | `<数值>` | Turn off the specified bit number(s) in the OS/2 table fsSelection field. Can be used more than once to turn OFF more than one bit at a time. `–osbOff 7 –osbOff 8` will turn off bits 7 and 8. See section below on New OS/2 Bits.|
+|`-osv` | `<数值>` | Set version number of the OS/2 table. The default value is 3 if none of the bits specified only in version 4 and later are used; otherwise, the default version is 4. See section below on New OS/2 Bits.|
 |`-addn` | | Replace the `.notdef` glyph in the source data (if any) with a standard `.notdef` glyph, that will match the font’s weight and width.|
 |`-adds` | | Create any Apple Mac Symbol glyphs missing from the font. Added glyphs will match the font’s weight and width.|
 |`-serif` | | Specify that any added glyph will use the serif Multiple Master built-in glyph data.|
 |`-sans` | | Specify that any added glyphs will use the sans-serif Multiple Master builtin glyph data.|
 |`-cs` | | Override the heuristics, and specify the script ID for the Mac cmap subtable.|
 |`-cl`| | Override the heuristics, and specify the language ID for the Mac cmap subtable.|
-|`-cm` |`<file path>` | Specify path to CID CMap encoding file for the font Mac encoding. (CID-keyed fonts only)|
-|`-ch`|`<file path>`| Specify path to CID CMap encoding file for the font Unicode UTF-32 encoding for horizontal glyphs. (CID-keyed fonts only)|
-|`-cv`|`<file path>`| Specify path to CID CMap encoding file for the font Unicode UTF-32 encoding for vertical glyphs. (CID-keyed fonts only)|
-|`-ci`|`<file path>`| Specify path to Unicode Variation Sequence specification file.|
+|`-cm` |`<文件路径>`| Specify path to CID CMap encoding file for the font Mac encoding. (CID-keyed fonts only)|
+|`-ch`|`<文件路径>`| Specify path to CID CMap encoding file for the font Unicode UTF-32 encoding for horizontal glyphs. (CID-keyed fonts only)|
+|`-cv`|`<文件路径>`| Specify path to CID CMap encoding file for the font Unicode UTF-32 encoding for vertical glyphs. (CID-keyed fonts only)|
+|`-ci`|`<文件路径>`| Specify path to Unicode Variation Sequence specification file.|
 |`-dbl`| |Map glyph names to two Unicode values rather than one. This was the default behavior of makeotf in FDK 1.6 and earlier. The Adobe Type Department now discourages this practice. The option exists only to allow building fonts that match original versions. See `makeotf –h` for the hard-coded list of glyphs.|
 |`-dcs`| |Set OS/2.DefaultChar to the Unicode value for `space`, rather than `.notdef`. The latter is correct by the OT spec, but QuarkXPress 6.5 requires the former in order to print OTF/CFF fonts.|
-|`-fi` |`<file path>`| Path to the `fontinfo` file. If no path is given, the default is to look for first `fontinfo`, then `cidfontinfo`, in the current directory. Used to set some default values. This are overridden by any conflicting settings in the project file and then by command line options. This option is processed before any others, so if the path is relative, it is relative to the current working directory. All other relative paths are relative so the source font’s parent directory.|
-|`-sp`|`<file path>`|Save the current options to the file path provided, as well as to the current.fpr file.|
+|`-fi` |`<文件路径>`| Path to the `fontinfo` file. If no path is given, the default is to look for first `fontinfo`, then `cidfontinfo`, in the current directory. Used to set some default values. This are overridden by any conflicting settings in the project file and then by command line options. This option is processed before any others, so if the path is relative, it is relative to the current working directory. All other relative paths are relative so the source font’s parent directory.|
+|`-sp`|`<文件路径>`|Save the current options to the file path provided, as well as to the current.fpr file.|
 |`-nb`| |Turn off the Bold style. Can be used to override a project file setting, otherwise has no effect.|
 |`-ni`| |Turn off the Italic style. Can be used to override a project file setting, otherwise has no effect.|
 |`-nS`| |Turn off subroutinization.|
@@ -138,9 +138,9 @@ makeotf –fp myproject.fpr
 |`l=<兼容的字族菜单名称>`|
 |`m=1,<Macintosh 兼容全名>`|
 
-Each `FontMenuNameDB` entry is composed of at least `Preferred Family name`, which is specified with the key `f=`, followed by the family name.
+「字体菜单名」中各条目都至少需要包含 `<优先选择的字族名称>`，用“关键字 `f=` 再加字族名”来指定。
 
-In many programs’ font menus, the fonts will be listed in a cascading menu showing the Family names in the first level, followed by a pop-out list of Style names, containing all fonts that share the same Family name. In other programs, the menus will show a “flat” list of all fonts using the *Full name*. `makeotf` will build this by concatenating the `Family name`, a space character, and the `Style name`.
+这些字体在很多程序里面，会以分级菜单的形式列出——「字族名称」为第一层；然后把字族名称相同的字体，统统纳入弹出的「风格名称」列表中。另外某些程序则是扁平化的菜单，把所有字体按照「全名」列出来—— `makeotf` 会将「字族名称+空格+风格名称」连接成为「全名」。
 
 However, additional names may need to be supplied. This happens because style-linking (selecting another font of the same family by applying Bold or Italic options to the current font) only allows for families to have up to four members. This means that only four fonts can share the same Family name. If the family has more than four members, or has members which are not style-linked, it is then necessary to divide the family into sub-families which are style-linked, and to provide each sub-family with a unique compatible family menu name.
 
@@ -232,26 +232,10 @@ In general, the `f=`, `s=`, and `l=` can be extended to set non-Latin strings by
 
 ## **字形顺序与代号（GOADB）**
 
-The GOADB file is used to rename and to establish an order for the glyphs in a font.
-It is a simple text file with one line per glyph name. Each line contains at least two fields,
-and optionally a third field.
-Fields within a line are tab separated
-(technically any amount of a whitespace works but a single ASCII TAB is preferred).
-Blank lines are ignored.
-Lines beginning with `#` are comments and are also ignored.
-The first field is the final glyph name to be used in the output font.
-The second field is the ‘friendly’ name used in the source font data. 
-The third field is a Unicode value, specified in the form `uniXXXX` or `uXXXX[XX]` (see [note](#unicode_note)). 
-One may specify more than one Unicode value for a glyph by giving a comma separated list of values, for example: `uni0020,uni00A0`. 
-The `XXXX` hexadecimal values *must* be either numerals (0-9) or uppercase letters. Values containing lowercase letters will be ignored. 
-The source font is not required to have any glyphs that are named in the `GlyphOrderAndAliasDB` file.
+GOADB文件用于重命名和建立字体中字形的顺序。它是个简单的文本文件，每个字形名称占一行。每一行至少包含两个字段，可以再放第三个字段；一行中的字段用制表符隔开（技术上讲，任何数量的空格都可以，但首选是一个ASCII TAB）。空行将被忽略。以 `#` 开头的行是注释，也会被忽略。第一个字段是要在输出字体中使用的最终字形名称。第二个字段是源字体数据中使用的「友好」名称。第三个字段是 Unicode 值，以 `uniXXXX` 或 `uXXXX[XX]` 的形式指定（见[注释](#unicode_note)）。可以通过给出一个逗号分隔的值列表为一个字形指定多个Unicode值，例如：`uni0020,uni00A0`。`XXXX` 十六进制值**必须**是数字（0-9）或大写字母。包含小写字母的值将被忽略。不要求源字体在此文件中有任何已命名的字形。
 
 <a name="unicode_note"></a>
-Note: Unicode values can be used in the form `uniXXXX` or `uXXXX[XX]` where `XXXX[XX]` is a hexadecimal Unicode value.
-The number of `X` is determined by the codepoint. For example, `U+0903` can be written as either 
-`uni0903` or `u0903`. If the codepoint requires 5 or 6 digits, for example `U+F0002` or `U+F00041`, 
-then the format must contain the same number of digits: `uF0002` or `uF00041`. This only applies when 
-assigning Unicode values using column 3.
+Note: Unicode values can be used in the form `uniXXXX` or `uXXXX[XX]` where `XXXX[XX]` is a hexadecimal Unicode value. The number of `X` is determined by the codepoint. For example, `U+0903` can be written as either `uni0903` or `u0903`. If the codepoint requires 5 or 6 digits, for example `U+F0002` or `U+F00041`, then the format must contain the same number of digits: `uF0002` or `uF00041`. This only applies when assigning Unicode values using column 3.
 
 
 It should be noted that the ordering, renaming, and Unicode override operations are applied only if the `–r` option or the `-ga` option is specified. These operations work as follows:
@@ -276,7 +260,7 @@ Note that MakeOTF no longer assigns glyphs Unicode values from the Private Use A
 
 ## **字体信息（fontinfo）**
 
-The fontinfo file is a simple text file containing key-value pairs. Each line contains two white-space separated fields. The first field is a keyword, and the second field is the value. makeotf will look for a fontinfo file in the same directory as the source font file, and, if found, use it to set some default values. These values will be overridden if they are also set by a project file, and then by any `makeotf` command line options. The keywords and values currently supported are:
+字体信息文件是个简单的文本文件，包含键值对。每行有两个用空格隔开的字段，前者是关键词，后者是值。makeotf 会在源字体文件的目录下寻找字体信息文件，若存在，则以之为默认值。它们可以被项目文件或者 `makeotf` 命令行选项覆盖。makeotf 支持的键值如下：These values will be overridden if they are also set by a project file, and then by any `makeotf` command line options.
 
 | Keyword | Values | Effect |
 |---------|--------|--------|
