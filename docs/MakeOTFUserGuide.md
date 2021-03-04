@@ -108,7 +108,7 @@ makeotf –fp myproject.fpr
 |`-dbl`| |Map glyph names to two Unicode values rather than one. This was the default behavior of makeotf in FDK 1.6 and earlier. The Adobe Type Department now discourages this practice. The option exists only to allow building fonts that match original versions. See `makeotf –h` for the hard-coded list of glyphs.|
 |`-dcs`| |Set OS/2.DefaultChar to the Unicode value for `space`, rather than `.notdef`. The latter is correct by the OT spec, but QuarkXPress 6.5 requires the former in order to print OTF/CFF fonts.|
 |`-fi` |`<文件路径>`| Path to the `fontinfo` file. If no path is given, the default is to look for first `fontinfo`, then `cidfontinfo`, in the current directory. Used to set some default values. This are overridden by any conflicting settings in the project file and then by command line options. This option is processed before any others, so if the path is relative, it is relative to the current working directory. All other relative paths are relative so the source font’s parent directory.|
-|`-sp`|`<文件路径>`|Save the current options to the file path provided, as well as to the current.fpr file.|
+|`-sp`|`<⁠文⁠件⁠路⁠径⁠>`|Save the current options to the file path provided, as well as to the current.fpr file.|
 |`-nb`| |Turn off the Bold style. Can be used to override a project file setting, otherwise has no effect.|
 |`-ni`| |Turn off the Italic style. Can be used to override a project file setting, otherwise has no effect.|
 |`-nS`| |Turn off subroutinization.|
