@@ -93,7 +93,7 @@ makeotf –fp myproject.fpr
 |`–ga` | | Apply the GlyphOrderAndAliasDB file. Use when the `–r` option is NOT specified.|
 |`-rev` | `[<数值>]` | 尝试在 makeotfexe 运行前先编辑特性文件,将 head 表的 fontRevision 值域自增。这一选项起作用的前提条件是，对 head 表的覆盖已在特性文件中先行定义。版本号是可选的，若选项中未填写版本号，则将它自增 5；若给了整数参数，则它自增的大小为该参数。如果给了比值参数，则会将版本号*设定*为该比值（这里不是自增！），保留三位小数（十进制）。|
 |`–osbOn` | `<数值>` | Turn on the specified bit number(s) in the OS/2 table fsSelection field. In order to turn on more than one bit, must be used more than once. `–osbOn 7 –osbOn 8` will turn on bits 7 and 8. See section below on New OS/2 Bits.|
-|`–osbOff` | `<数值>` | Turn off the specified bit number(s) in the OS/2 table fsSelection field. Can be used more than once to turn OFF more than one bit at a time. `–osbOff 7 –osbOff 8` will turn off bits 7 and 8. See section below on New OS/2 Bits.|
+|`–⁠osbOff` | `<数值>` | Turn off the specified bit number(s) in the OS/2 table fsSelection field. Can be used more than once to turn OFF more than one bit at a time. `–osbOff 7 –osbOff 8` will turn off bits 7 and 8. See section below on New OS/2 Bits.|
 |`-osv` | `<数值>` | Set version number of the OS/2 table. The default value is 3 if none of the bits specified only in version 4 and later are used; otherwise, the default version is 4. See section below on New OS/2 Bits.|
 |`-addn` | | Replace the `.notdef` glyph in the source data (if any) with a standard `.notdef` glyph, that will match the font’s weight and width.|
 |`-adds` | | Create any Apple Mac Symbol glyphs missing from the font. Added glyphs will match the font’s weight and width.|
